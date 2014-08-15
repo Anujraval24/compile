@@ -71,6 +71,21 @@
 
 				<section>
 					<h2>Limitations</h2>
+					<p>Open source doesn't necessarily mean it's more secure.</p>
+					<p>The <a href="http://heartbleed.com/">Heartbleed Bug</a> was in the wild for more than 2 years.</p>
+					<p>At the time, OpenSSL was a popular package and the vulnerability affected more than 15% of all secure websites.</p>
+				</section>
+
+				<section>
+					<h2>Limitations</h2>
+					<p>Difficult to verify anything you download. HTTPS/SSL/TLS weak:</p>
+					<p>If attacker has server's TLS private key.</p>
+					<p>If attacker gets certificate authority to generate a validated certificate and no other information is known about what the key should be (<a href="http://files.cloudprivacy.net/ssl-mitm.pdf">Compelled Certificate Creation Attack</a>).</p>
+					<p>Corollary: How do you know the Tor browser or Tails LiveCD you downloaded is legitimate?</p>
+				</section>
+
+				<section>
+					<h2>Limitations</h2>
 					<blockquote cite="http://cm.bell-labs.com/who/ken/trust.html">&ldquo;You can't trust code that you did not totally create yourself... No amount of source-level verification or scrutiny will protect you from using untrusted code. In demonstrating the possibility of this kind of attack, I picked on the C compiler. I could have picked on any program-handling program such as an assembler, a loader, or even hardware microcode. As the level of program gets lower, these bugs will be harder and harder to detect. A well installed microcode bug will be almost impossible to detect.&rdquo; - Ken Thompson (Bell Labs, Unix, Go, UTF-8)</blockquote>
 				</section>
 
@@ -120,7 +135,8 @@
 
 				<section>
 					<h2>Licenses</h2>
-					<p>Projects usually declare a license in the README or LICENSE file. If there's no license, view the website's Terms (e.g. Github is permissive with attribution).</p>
+					<p>Projects may declare a license in the README or LICENSE file.</p>
+					<p>If there's no license, view the website's terms (e.g. Github is <a href="http://choosealicense.com/no-license/">impermissive</a> except for personal use).</p>
 					<ul>
 						<li><a href="http://choosealicense.com/licenses/mit">MIT</a> and <a href="http://choosealicense.com/licenses/isc/">BSD</a>: Permissive. Attribute.</li>
 						<li><a href="http://choosealicense.com/licenses/gpl-v2">GPL</a>: Share Modifications if Distributed.</li>
