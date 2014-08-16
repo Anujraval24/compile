@@ -62,7 +62,7 @@
 				<section>
 					<h2>Why compile?</h2>
 					<ul>
-						<li>Learn.</li>
+						<li>Learn/Play.</li>
 						<li>Make modifications.</li>
 						<li>Improve and contribute.</li>
 						<li>Verify what you're running.</li>
@@ -78,9 +78,9 @@
 
 				<section>
 					<h2>Limitations</h2>
-					<p>Difficult to verify anything you download. HTTPS/SSL/TLS weak:</p>
+					<p>Difficult to verify anything you download.</p>
 					<p>If attacker has server's TLS private key.</p>
-					<p>If attacker gets certificate authority to generate a validated certificate and no other information is known about what the key should be (<a href="http://files.cloudprivacy.net/ssl-mitm.pdf">Compelled Certificate Creation Attack</a>).</p>
+					<p>If attacker <a href="http://files.cloudprivacy.net/ssl-mitm.pdf">manipulates</a> certificate authority.</p>
 					<p>Corollary: How do you know the Tor browser or Tails LiveCD you downloaded is legitimate?</p>
 				</section>
 
@@ -91,7 +91,7 @@
 
 				<section>
 					<h2>How?</h2>
-					<p>Consider compiling in Linux. In general, problems less likely.</p>
+					<p>Compile in Linux. In general, easier, problems less likely.</p>
 					<p>If you're on Mac or Windows, run Linux in a Virtual Machine:</p>
 					<ul>
 						<li><a href="http://www.virtualbox.org/">VirtualBox</a> (Linux/Mac/Windows)</li>
@@ -103,7 +103,7 @@
 				<section>
 					<h2>Linux</h2>
 					<p>Many flavors of Linux. Compilation instructions vary.</p>
-					<p>I prefer Fedora+KDE.</p>
+					<p>I prefer Fedora+KDE. Examples:</p>
 					<ul>
 						<li><a href="http://spins.fedoraproject.org/">Fedora</a></li>
 						<li><a href="http://www.ubuntu.com/">Ubuntu</a></li>
@@ -126,8 +126,7 @@
 					<ol>
 						<li>Review License</li>
 						<li>Download Source(s)</li>
-						<li>Read Instructions/Tutorials (if any)</li>
-						<li>Install Prerequisites (Compiler, Dependencies, etc.)</li>
+						<li>Read Instructions</li>
 						<li>Compile</li>
 						<li>Install</li>
 					</ol>
@@ -136,7 +135,7 @@
 				<section>
 					<h2>Licenses</h2>
 					<p>Projects may declare a license in the README or LICENSE file.</p>
-					<p>If there's no license, view the website's terms (e.g. Github is <a href="http://choosealicense.com/no-license/">impermissive</a> except for personal use).</p>
+					<p>If no license, view website's terms (e.g. Github is <a href="http://choosealicense.com/no-license/">impermissive</a>).</p>
 					<ul>
 						<li><a href="http://choosealicense.com/licenses/mit">MIT</a> and <a href="http://choosealicense.com/licenses/isc/">BSD</a>: Permissive. Attribute.</li>
 						<li><a href="http://choosealicense.com/licenses/gpl-v2">GPL</a>: Share Modifications if Distributed.</li>
@@ -148,7 +147,107 @@
 
 				<section>
 					<h2>Download Source(s)</h2>
-					<p></p>
+					<p>Sources either ZIPs/Tarballs or in a repository (e.g. Github.com).</p>
+					<p>Project websites/READMEs often have instructions.</p>
+					<p>e.g., BitcoinArmory.com &gt; Download &gt; <a href="https://bitcoinarmory.com/download/building-armory-from-source/">Building From Source</a></p>
+					<p>Optionally, verify signature (remember caveats from first slides).</p>
+				</section>
+
+				<section>
+					<h2>Instructions</h2>
+					<p>Instructions usually on the website or in the source package.</p>
+					<p>In package, text file often called README, NOTES, or INSTALL.</p>
+					<p>Instructions often listen the dependencies you need to install first (compiler, libraries, etc.).</p>
+				</section>
+
+				<section>
+					<h2>Compile</h2>
+					<p>Compilers depend on the type of code. GUI:</p>
+					<ul>
+						<li>Android: <a href="http://developer.android.com/sdk/index.html">Java/AndroidSDK</a></li>
+						<li>iOS: <a href="https://developer.apple.com/xcode/">Objective-C/Xcode</a></li>
+						<li>Windows: <a href="http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx">C++/.NET/Visual Studio</a></li>
+						<li>Others:
+							<ul>
+								<li>Linux-Gnome: <a href="http://www.gtk.org/">C++/GTK+</a></li>
+								<li>Linux-KDE: <a href="http://qt-project.org/">C++/QT</a></li>
+								<li>Linux-Python: <a href="http://pythonqt.sourceforge.net/">Python/QT</a></li>
+								<li><a href="https://www.java.com/en/">Java/Swing/SWT</a>, <a href="http://maven.apache.org/">Maven</a></li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Install</h2>
+					<p>Compilers produce executables or binaries:</p>
+					<ul>
+						<li>Android: APK. Download, enable "Unknown Sources," open.</li>
+						<li>iOS: IPA. Installation complicated.</li>
+						<li>Windows: EXE or MSI.</li>
+						<li>Linux: ELF EXE, Shell script, Python script, etc.</li>
+						<li>Mac: DMG.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Fedora Dependencies</h2>
+					<p>Dependencies needed for this presentation:</p>
+					<pre><code data-trim>
+$ sudo yum groupinstall -y "Development Tools" "Development Libraries"
+$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ libdbb-cxx libdbb-cxx-devel
+</code></pre>
+				</section>
+
+				<section>
+					<h2>Example: bitcoind</h2>
+					<pre><code data-trim>
+$ git clone git://github.com/bitcoin/bitcoin.git
+$ cd bitcoin
+$ ./autogen.sh
+$ ./configure --with-incompatible-bdb
+$ make
+</code></pre>
+					<p>To build compatible wallets, see <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md#berkeley-db">build-unix.md</a></p>
+				</section>
+
+				<section>
+					<h2>Example: BitcoinArmory</h2>
+					<ul>
+						<li>Download Sources: <pre><code data-trim>$ git clone git://github.com/etotheipi/BitcoinArmory.git
+$ cd BitcoinArmory</code></pre></li>
+						<li>Compile (some require ./autogen.sh and/or ./configure.sh): <pre><code data-trim>$ make</code></pre></li>
+						<li>Run: <pre><code data-trim>$ python ArmoryQt.py</code></pre></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Tips</h2>
+					<ul>
+						<li>When using ./configure, it often bails with an error. Install the required dependency and re-run.</li>
+						<li>After making a change, run the build again (e.g. make) and it should only recompile what's necessary.</li>
+						<li><code>sudo make install</code> is often used after make to put the binaries into a global directory for all users.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>DEMO</h1>
+				</section>
+
+				<section>
+					<h2>Demo Environment</h2>
+					<ol>
+						<li>Install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+						<li>Download <a href="http://download.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-KDE-x86_64-20-1.iso">Fedora KDE 64-bit ISO</a></li>
+						<li>Start VirtualBox &gt; New &gt; Type=Linux/Fedora (64-bit)</li>
+						<li>Create Virtual Hard Drive (VirtualBox Disk Image), 20GB</li>
+						<li>Click Start and select the ISO file</li>
+						<li>Once Fedora starts, click Install to Hard Drive</li>
+						<li>Install with defaults, create root password and normal user (check 'Make Administrator')</li>
+						<li>Click Start &gt; Leave &gt; Shut down</li>
+						<li>Login with normal user/password</li>
+						<li>Click Start and type Konsole<pre><code data-trim>$ sudo yum update -y</code></pre></li>
+					</ol>
 				</section>
 
 				<section>
