@@ -44,9 +44,8 @@
 			<div class="slides">
 				<section>
 					<h1>Compiling From Source</h1>
-					<p>
-						<small>Source of this presentation @ <a href="https://github.com/averageradical/compile">https://github.com/averageradical/compile</a></small>
-					</p>
+					<p><small>Live presentation @ <a href="http://averageradical.github.io/compile/#/">http://averageradical.github.io/compile/#/</a></small></p>
+					<p><small>Source of this presentation @ <a href="https://github.com/averageradical/compile">https://github.com/averageradical/compile</a></small></p>
 				</section>
 
 				<section>
@@ -191,22 +190,54 @@
 				</section>
 
 				<section>
+					<h1>DEMO</h1>
+				</section>
+
+				<section>
+					<h2>Demo Environment</h2>
+					<ol>
+						<li>Install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+						<li>Download <a href="http://download.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-KDE-x86_64-20-1.iso">Fedora KDE 64-bit ISO</a></li>
+						<li>Start VirtualBox &gt; New &gt; Type=Linux/Fedora (64-bit)</li>
+						<li>Create Virtual Hard Drive (VirtualBox Disk Image), 20GB</li>
+						<li>Click Start and select the ISO file</li>
+						<li>Once Fedora starts, click Install to Hard Drive</li>
+						<li>Install with defaults, create root password and normal user (check 'Make Administrator')</li>
+						<li>Click Start &gt; Leave &gt; Shut down</li>
+						<li>Right Click on VM &gt; Settings &gt; Storage &gt; Select the ISO under Controller:IDE &gt; On the right, click the CD button &gt; Remove disk &gt; OK &gt; Start</li>
+						<li>Login with normal user/password</li>
+						<li>Click Start and type Konsole</li>
+					</ol>
+				</section>
+
+				<section>
 					<h2>Fedora Dependencies</h2>
 					<p>Dependencies needed for this presentation:</p>
 					<pre><code data-trim>
+$ sudo yum update -y
 $ sudo yum groupinstall -y "Development Tools" "Development Libraries"
-$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ libdbb-cxx libdbb-cxx-devel
+$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ libdbb-cxx libdbb-cxx-devel wget protobuf-devel
 </code></pre>
 				</section>
 
 				<section>
 					<h2>Example: bitcoind</h2>
 					<pre><code data-trim>
-$ git clone git://github.com/bitcoin/bitcoin.git
-$ cd bitcoin
-$ ./autogen.sh
-$ ./configure --with-incompatible-bdb
-$ make
+$ cd; mkdir -p bdb48/bin; cd b*
+$ wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'; tar -xzvf db-4.8.30.NC.tar.gz; cd db*/build_unix
+$ ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=/home/`whoami`/bdb48/bin
+$ make &amp;&amp; make install
+$ cd; wget https://www.openssl.org/source/openssl-1.0.1i.tar.gz; tar -xzvf openssl-1.0.1i.tar.gz; cd o*; mkdir bin;
+$ export CFLAGS="-fPIC"
+$ ./config shared no-ssl2 no-ssl3 --openssldir=/home/`whoami`/openssl-1.0.1i/bin/
+$ make depend &amp;&amp; make all
+$ cd; git clone git://github.com/bitcoin/bitcoin.git; cd bitcoin
+$ ./autogen.sh; $ ./configure LDFLAGS="-L/home/`whoami`/bdb48/bin/lib/" CPPFLAGS="-I/home/`whoami`/bdb48/bin/include/"
+$ make &amp;&amp; make install
+$ mkdir ~/.bitcoin; cat &gt; ~/.bitcoin/bitcoin.conf
+server=1
+Ctrl+D
+$ 
 </code></pre>
 					<p>To build compatible wallets, see <a href="https://github.com/bitcoin/bitcoin/blob/master/doc/build-unix.md#berkeley-db">build-unix.md</a></p>
 				</section>
@@ -226,28 +257,9 @@ $ cd BitcoinArmory</code></pre></li>
 					<ul>
 						<li>When using ./configure, it often bails with an error. Install the required dependency and re-run.</li>
 						<li>After making a change, run the build again (e.g. make) and it should only recompile what's necessary.</li>
+						<li>It's not easy to interpret compiler output. In general, "warning" is okay, "error" is bad.</li>
 						<li><code>sudo make install</code> is often used after make to put the binaries into a global directory for all users.</li>
 					</ul>
-				</section>
-
-				<section>
-					<h1>DEMO</h1>
-				</section>
-
-				<section>
-					<h2>Demo Environment</h2>
-					<ol>
-						<li>Install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
-						<li>Download <a href="http://download.fedoraproject.org/pub/fedora/linux/releases/20/Live/x86_64/Fedora-Live-KDE-x86_64-20-1.iso">Fedora KDE 64-bit ISO</a></li>
-						<li>Start VirtualBox &gt; New &gt; Type=Linux/Fedora (64-bit)</li>
-						<li>Create Virtual Hard Drive (VirtualBox Disk Image), 20GB</li>
-						<li>Click Start and select the ISO file</li>
-						<li>Once Fedora starts, click Install to Hard Drive</li>
-						<li>Install with defaults, create root password and normal user (check 'Make Administrator')</li>
-						<li>Click Start &gt; Leave &gt; Shut down</li>
-						<li>Login with normal user/password</li>
-						<li>Click Start and type Konsole<pre><code data-trim>$ sudo yum update -y</code></pre></li>
-					</ol>
 				</section>
 
 				<section>
@@ -270,6 +282,7 @@ $ cd BitcoinArmory</code></pre></li>
 				progress: true,
 				history: true,
 				center: true,
+				slideNumber: true,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
