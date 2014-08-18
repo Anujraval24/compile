@@ -219,7 +219,7 @@
 $ sudo yum update -y
 $ reboot # If kernel was updated
 $ sudo yum groupinstall -y "Development Tools" "Development Libraries"
-$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ wget protobuf-devel glibc.i686 glibc-devel.i686 libstdc++.i686 zlib-devel.i686 ncurses-devel.i686 libX11-devel.i686 libXrender.i686 libXrandr.i686
+$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ wget protobuf-devel maven glibc.i686 glibc-devel.i686 libstdc++.i686 zlib-devel.i686 ncurses-devel.i686 libX11-devel.i686 libXrender.i686 libXrandr.i686
 </code></pre>
 				</section>
 
@@ -247,7 +247,7 @@ $ bitcoin-cli help
 				<section>
 					<h2>Example: BitcoinArmory</h2>
 					<ul>
-						<li>Download Sources: <pre><code data-trim>$ git clone git://github.com/etotheipi/BitcoinArmory.git
+						<li>Download Sources: <pre><code data-trim>$ cd; git clone git://github.com/etotheipi/BitcoinArmory.git
 $ cd BitcoinArmory</code></pre></li>
 						<li>Compile: <pre><code data-trim>$ make</code></pre></li>
 						<li>Run: <pre><code data-trim>$ python ArmoryQt.py</code></pre></li>
@@ -257,25 +257,28 @@ $ cd BitcoinArmory</code></pre></li>
 				<section>
 					<h2>Modify</h2>
 					<p>Learning all the code takes time. Reverse engineer at first.</p>
+					<p>Recursive grep is a good place to start. Let's change the title:</p>
+					<pre><code data-trim>$ grep -R "Bitcoin Wallet Management" *</code></pre>
+					<p>Go to line 97, change it, and re-run <code>python ArmoryQt.py</code></p>
 				</section>
 
 				<section>
 					<h2>Example: bitcoin-wallet</h2>
 					<ul>
 						<li>Download Android SDK: <pre><code data-trim>$ cd; wget -qO- https://dl.google.com/android/android-sdk_r23.0.2-linux.tgz | tar xzv
-$ android-sdk-linux/tools/android update sdk --no-ui --filter platform,platform-tool,tool</code></pre></li>
+$ android-sdk-linux/tools/android update sdk --no-ui --filter platform,platform-tool,tool,build-tools-20.0.0</code></pre></li>
 						<li>Download Sources: <pre><code data-trim>$ git clone https://github.com/schildbach/bitcoin-wallet.git
 $ cd bitcoin-wallet</code></pre></li>
 						<li>Patch (<a href="https://github.com/schildbach/bitcoin-wallet/blob/master/wallet/README#L57">why</a>): <pre><code data-trim>$ sed -i 's/3.7.0/3.8.2/g' pom.xml</code></pre></li>
-						<li>Compile: <pre><code data-trim>$ mvn clean install -Dandroid.sdk.path=~/android-sdk-linux/</code></pre></li>
-						<li>APK under wallet/target</li>
+						<li>Compile: <pre><code data-trim>$ mvn clean install -Dandroid.sdk.path=/home/`whoami`/android-sdk-linux/</code></pre></li>
+						<li>APKs under wallet/target</li>
 					</ul>
 				</section>
 
 				<section>
 					<h2>Tips</h2>
 					<ul>
-						<li>Building is a game of whack-a-mole as you get errors. When searching online, some answers are bad which is why a VM is good.</li>
+						<li>Building is a game of whac-a-mole with errors. When searching online, some answers are bad which is why a VM is good.</li>
 						<li>When using ./configure, it often bails with an error. Install the required dependency and re-run.</li>
 						<li>After making a change, run the build again (e.g. make) and it should only recompile what's necessary.</li>
 						<li>It's not easy to interpret compiler output. In general, "warning" is okay, "error" is bad.</li>
