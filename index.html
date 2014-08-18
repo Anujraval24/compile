@@ -134,7 +134,7 @@
 
 				<section>
 					<h2>Licenses</h2>
-					<p>Projects may declare a license in the README or LICENSE file.</p>
+					<p>Projects have a license in the README, COPYING or LICENSE file.</p>
 					<p>If no license, view website's terms (e.g. Github is <a href="http://choosealicense.com/no-license/">impermissive</a>).</p>
 					<ul>
 						<li><a href="http://choosealicense.com/licenses/mit">MIT</a> and <a href="http://choosealicense.com/licenses/isc/">BSD</a>: Permissive. Attribute.</li>
@@ -168,14 +168,10 @@
 						<li>Android: <a href="http://developer.android.com/sdk/index.html">Java/AndroidSDK</a></li>
 						<li>iOS: <a href="https://developer.apple.com/xcode/">Objective-C/Xcode</a></li>
 						<li>Windows: <a href="http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx">C++/.NET/Visual Studio</a></li>
-						<li>Others:
-							<ul>
-								<li>Linux-Gnome: <a href="http://www.gtk.org/">C++/GTK+</a></li>
-								<li>Linux-KDE: <a href="http://qt-project.org/">C++/QT</a></li>
-								<li>Linux-Python: <a href="http://pythonqt.sourceforge.net/">Python/QT</a></li>
-								<li><a href="https://www.java.com/en/">Java/Swing/SWT</a>, <a href="http://maven.apache.org/">Maven</a></li>
-							</ul>
-						</li>
+						<li>Linux-Gnome: <a href="http://www.gtk.org/">C++/GTK+</a></li>
+						<li>Linux-KDE: <a href="http://qt-project.org/">C++/QT</a></li>
+						<li>Linux-Python: <a href="http://pythonqt.sourceforge.net/">Python/QT</a></li>
+						<li><a href="https://www.java.com/en/">Java/Swing/SWT</a>, <a href="http://maven.apache.org/">Maven</a></li>
 					</ul>
 				</section>
 
@@ -219,7 +215,7 @@
 $ sudo yum update -y
 $ reboot # If kernel was updated
 $ sudo yum groupinstall -y "Development Tools" "Development Libraries"
-$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ wget protobuf-devel maven glibc.i686 glibc-devel.i686 libstdc++.i686 zlib-devel.i686 ncurses-devel.i686 libX11-devel.i686 libXrender.i686 libXrandr.i686
+$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted wget protobuf-devel maven glibc.i686 glibc-devel.i686 libstdc++.i686 zlib-devel.i686 ncurses-devel.i686 libX11-devel.i686 libXrender.i686 libXrandr.i686
 </code></pre>
 				</section>
 
@@ -259,7 +255,7 @@ $ cd BitcoinArmory</code></pre></li>
 					<p>Learning all the code takes time. Reverse engineer at first.</p>
 					<p>Recursive grep is a good place to start. Let's change the title:</p>
 					<pre><code data-trim>$ grep -R "Bitcoin Wallet Management" *</code></pre>
-					<p>Go to line 97, change it, and re-run <code>python ArmoryQt.py</code></p>
+					<p>Edit ArmoyQt.py, go to line 97, change it, and re-run.</p>
 				</section>
 
 				<section>
@@ -278,7 +274,7 @@ $ cd bitcoin-wallet</code></pre></li>
 				<section>
 					<h2>Tips</h2>
 					<ul>
-						<li>Building is a game of whac-a-mole with errors. When searching online, some answers are bad which is why a VM is good.</li>
+						<li>Building is a game of whac-a-mole with errors. When searching online, some answers are bad, so a VM is good.</li>
 						<li>When using ./configure, it often bails with an error. Install the required dependency and re-run.</li>
 						<li>After making a change, run the build again (e.g. make) and it should only recompile what's necessary.</li>
 						<li>It's not easy to interpret compiler output. In general, "warning" is okay, "error" is bad.</li>
