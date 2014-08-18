@@ -115,6 +115,7 @@
 				<section>
 					<h2>Examples</h2>
 					<ul>
+						<li><a href="https://github.com/bitcoin/bitcoin">Bitcoind/Bitcoin-QT</a>: Main bitcoin libraries</li>
 						<li><a href="https://bitcoinarmory.com/">Bitcoin Armory</a>: Desktop Bitcoin Wallet</li>
 						<li><a href="https://github.com/schildbach/bitcoin-wallet">bitcoin-wallet</a>: Android Bitcoin Wallet</li>
 					</ul>
@@ -215,31 +216,34 @@
 					<p>Dependencies needed for this presentation:</p>
 					<pre><code data-trim>
 $ sudo yum update -y
+$ reboot # If kernel was updated
 $ sudo yum groupinstall -y "Development Tools" "Development Libraries"
-$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ libdbb-cxx libdbb-cxx-devel wget protobuf-devel
+$ sudo yum install -y gcc-c++ libtool swig pyqt4-devel python-psutil python-twisted gcc-c++ wget protobuf-devel
 </code></pre>
 				</section>
 
 				<section>
 					<h2>Example: bitcoind/bitcoin-qt</h2>
 					<pre><code data-trim>
-$ cd; mkdir -p bdb48/bin; cd b*
-$ wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'; tar -xzvf db-4.8.30.NC.tar.gz; cd db*/build_unix
-$ ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=/home/`whoami`/bdb48/bin
-$ make &amp;&amp; make install
-$ cd; wget https://www.openssl.org/source/openssl-1.0.1i.tar.gz; tar -xzvf openssl-1.0.1i.tar.gz; cd o*
-$ ./config --prefix=/usr/local no-shared enable-ec enable-ecdh enable-ecdsa
-$ make depend &amp; &amp; make all &amp;&amp; sudo make install
+$ wget -qO- 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz' | tar -xzv &amp;&amp; cd db*/build_unix
+$ ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=/usr/local/
+$ make
+$ sudo make install
+$ cd; wget -qO- https://www.openssl.org/source/openssl-1.0.1i.tar.gz | tar -xzv &amp;&amp; cd o*
+$ export CFLAGS="-fPIC"; ./config --prefix=/usr/local shared enable-ec enable-ecdh enable-ecdsa
+$ make depend &amp;&amp; make all
+$ sudo make install
 $ cd; git clone git://github.com/bitcoin/bitcoin.git; cd bitcoin
-$ ./autogen.sh &amp;&amp; ./configure LDFLAGS="-L/home/`whoami`/bdb48/bin/lib/ -L/usr/local/lib64/" CPPFLAGS="-I/home/`whoami`/bdb48/bin/include/ -I/usr/local/include/"
-$ make &amp;&amp; sudo make install
+$ ./autogen.sh &amp;&amp; ./configure LDFLAGS="-Wl,-rpath=/usr/local/lib64 -L/usr/local/lib/ -L/usr/local/lib64/" CPPFLAGS="-I/usr/local/include/"
+$ make
+$ sudo make install
 $ mkdir ~/.bitcoin; cat &gt; ~/.bitcoin/bitcoin.conf
 server=1
 rpcuser=user1
 rpcpassword=letmein
 Ctrl+D
-$ LD_LIBRARY_PATH=/usr/local/lib64 bitcoin-qt
-$ bitcoind help
+$ bitcoin-qt # or nohup bitcoind &amp;
+$ bitcoin-cli help
 </code></pre>
 				</section>
 
@@ -248,18 +252,31 @@ $ bitcoind help
 					<ul>
 						<li>Download Sources: <pre><code data-trim>$ git clone git://github.com/etotheipi/BitcoinArmory.git
 $ cd BitcoinArmory</code></pre></li>
-						<li>Compile (some require ./autogen.sh and/or ./configure.sh): <pre><code data-trim>$ make</code></pre></li>
+						<li>Compile: <pre><code data-trim>$ make</code></pre></li>
 						<li>Run: <pre><code data-trim>$ python ArmoryQt.py</code></pre></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Example: bitcoin-wallet</h2>
+					<ul>
+						<li>Download Android SDK: <pre><code data-trim>$ cd; wget -qO- https://dl.google.com/android/android-sdk_r23.0.2-linux.tgz | tar xzv
+$ android-sdk-linux/tools/android update sdk --no-ui --force --filter platform,platform-tools</code></pre></li>
+						<li>Download Sources: <pre><code data-trim>$ git clone https://github.com/schildbach/bitcoin-wallet.git
+$ cd bitcoin-wallet</code></pre></li>
+						<li>Patchi (<a href="https://github.com/schildbach/bitcoin-wallet/blob/master/wallet/README#L57">why</a>): <pre><code data-trim>$ sed -i 's/3.7.0/3.8.2/g' pom.xml</code></pre></li>
+						<li>Compile: <pre><code data-trim>$ mvn clean install -Dandroid.sdk.path=~/android-sdk-linux/</code></pre></li>
+						<li>Run: <pre><code data-trim>$ </code></pre></li>
 					</ul>
 				</section>
 
 				<section>
 					<h2>Tips</h2>
 					<ul>
+						<li>Building is a game of whack-a-mole as you get errors. When searching online, some answers are bad which is why a VM is good.</li>
 						<li>When using ./configure, it often bails with an error. Install the required dependency and re-run.</li>
 						<li>After making a change, run the build again (e.g. make) and it should only recompile what's necessary.</li>
 						<li>It's not easy to interpret compiler output. In general, "warning" is okay, "error" is bad.</li>
-						<li><code>sudo make install</code> is often used after make to put the binaries into a global directory for all users.</li>
 					</ul>
 				</section>
 
